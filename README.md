@@ -24,7 +24,6 @@ print(etree.tostring(liff.memblocks[6].xml).decode('utf-8'))
 ```
 Load data from memoryblock
 ```python
-from lxml import etree
 from pyrawlifreader import LifFile
 liff = LifFile(r'c:\mylif.lif')
 data = liff.getbinaryblockdata('MemBlock_2644')
