@@ -11,7 +11,7 @@ import os
 import struct
 from dataclasses import dataclass
 from pathlib import Path
-from typing import Any, Union, IO
+from typing import IO, Any, Union
 
 from lxml import etree
 
