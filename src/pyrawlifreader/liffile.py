@@ -28,19 +28,19 @@ def getconstants() -> dict[str, str]:
     }
 
 
-def _read64bit(fp:IO[bytes]) -> int:
+def _read64bit(fp: IO[bytes]) -> int:
     return int(struct.unpack("<Q", fp.read(8))[0])
 
 
-def _read32bit(fp:IO[bytes]) -> int:
+def _read32bit(fp: IO[bytes]) -> int:
     return int(struct.unpack("<L", fp.read(4))[0])
 
 
-def _read16bit(fp:IO[bytes]) -> int:
+def _read16bit(fp: IO[bytes]) -> int:
     return int(struct.unpack("<H", fp.read(2))[0])
 
 
-def _read8bit(fp:IO[bytes]) -> int:
+def _read8bit(fp: IO[bytes]) -> int:
     return int(struct.unpack("<B", fp.read(1))[0])
 
 
@@ -57,7 +57,7 @@ class BinaryBlockHeader:
     offset: int
     identifier: str
 
-    def getdata(self, fp:IO[bytes])->bytes:
+    def getdata(self, fp: IO[bytes]) -> bytes:
         fp.seek(self.offset)
         return fp.read(self.datasize)
 
@@ -100,7 +100,7 @@ class LifFile:
                     )
         return memblocks
 
-    def getbinaryblockdata(self, blockindex: Union[str, int])->bytes:
+    def getbinaryblockdata(self, blockindex: Union[str, int]) -> bytes:
         if isinstance(blockindex, str):
             blocks = [x for x in self.binaryblocks if x.identifier == blockindex]
             if len(blocks) != 1:
@@ -111,7 +111,7 @@ class LifFile:
         with open(self.path, "rb") as fp:
             return block.getdata(fp)
 
-    def _getbinaryblockheader(self, fp:IO[bytes]) -> BinaryBlockHeader:
+    def _getbinaryblockheader(self, fp: IO[bytes]) -> BinaryBlockHeader:
         self._readcommonblockheader(fp)
         const = getconstants()
         lbbhi = int(const["LBBHi"], 16)
@@ -128,12 +128,12 @@ class LifFile:
         fp.seek(bdsize, 1)
         return BinaryBlockHeader(datasize=bdsize, offset=offset, identifier=bindatid)
 
-    def _readmetadatablock(self, fp:IO[bytes])->bytes:
+    def _readmetadatablock(self, fp: IO[bytes]) -> bytes:
         self._readcommonblockheader(fp)
         mbhsize = self._readmetadatablockheader(fp)
         return fp.read(mbhsize * 2)
 
-    def _readmetadatablockheader(self, fp:IO[bytes]) -> int:
+    def _readmetadatablockheader(self, fp: IO[bytes]) -> int:
         const = getconstants()
         mbhi = int(const["MBHi"], 16)
         if _read8bit(fp) != mbhi:
@@ -141,7 +141,7 @@ class LifFile:
             raise AssertionError
         return _read32bit(fp)
 
-    def _readcommonblockheader(self, fp:IO[bytes]) -> int:
+    def _readcommonblockheader(self, fp: IO[bytes]) -> int:
         const = getconstants()
         cbhi = int(const["CBHi"], 16)
         if _read32bit(fp) != cbhi:
