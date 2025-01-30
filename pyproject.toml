@@ -1,0 +1,19 @@
+[project]
+name = "pyrawlifreader"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+authors = [
+    { name = "r.harkes", email = "r.harkes@nki.nl" } 
+]
+requires-python = ">=3.13"
+dependencies = ["lxml"]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.mypy]
+python_version = '3.13'
+packages = "pyrawlifreader"
+strict = true
